@@ -1,6 +1,8 @@
 package lijsten;
 
-public abstract class Lijst implements Iterable {
+import java.util.Iterator;
+
+public abstract class Lijst implements Iterable<Integer> {
 	
 	public abstract int getLength();
 	
@@ -22,29 +24,20 @@ public abstract class Lijst implements Iterable {
 	}
 	
 	@Override
-	public Iterator iterator() {
-		return new Iterator() {
+	public Iterator<Integer> iterator() {
+		return new Iterator<Integer>() {
 			Lijst lijst = Lijst.this;
 			@Override
 			public boolean hasNext() {
 				return lijst instanceof NietLegeLijst;
 			}
 			@Override
-			public Object next() {
+			public Integer next() {
 				NietLegeLijst nll = (NietLegeLijst)lijst;
 				lijst = nll.getStaart();
 				return nll.getKop();
 			}
 		};
-	}
-	
-	@Override
-	public void forEach(Consumer consumer) {
-		for (Lijst lijst = this; lijst instanceof NietLegeLijst; ) {
-			NietLegeLijst nll = (NietLegeLijst)lijst;
-			consumer.accept(nll.getKop());
-			lijst = nll.getStaart();
-		}
 	}
 
 }
