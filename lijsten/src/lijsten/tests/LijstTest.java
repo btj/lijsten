@@ -1,11 +1,16 @@
 package lijsten.tests;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
+import lijsten.Iterator;
 import lijsten.LegeLijst;
-import lijsten.Lijst;
 import lijsten.NietLegeLijst;
 
 class LijstTest {
@@ -21,6 +26,21 @@ class LijstTest {
 		assertEquals(3, l4.getLength());
 		assertEquals("[10, 20, 30]", l4.toString());
 		assertEquals(new NietLegeLijst(10, new NietLegeLijst(20, new NietLegeLijst(30, new LegeLijst()))), l4);
+		
+		Iterator i = l4.iterator();
+		assertTrue(i.hasNext());
+		assertEquals(10, i.next());
+		assertTrue(i.hasNext());
+		assertEquals(20, i.next());
+		assertTrue(i.hasNext());
+		assertEquals(30, i.next());
+		assertFalse(i.hasNext());
+		
+		ArrayList<Object> elements = new ArrayList<>();
+		l4.forEach(element -> {
+			elements.add(element);
+		});
+		assertEquals(List.of(10, 20, 30), elements);
 	}
 
 }
